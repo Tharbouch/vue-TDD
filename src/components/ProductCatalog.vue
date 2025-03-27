@@ -1,25 +1,30 @@
 <template>
   <div>
-    <ProductSort :currentSort="currentSort" @sort-change="sortProducts" />
-    <ProductFilter
-      :currentFilters="currentFilters"
-      @filter-change="filterProducts"
+    <ProductSort
+      :currentSort="productStore.sortOption"
+      @sort-change="sortProducts"
     />
-    <div v-if="productStore.products.length === 0">
+    <ProductFilter
+      :categories="productStore.categories"
+      :selectedCategory="productStore.selectedCategory"
+      @category-change="filterProducts"
+      @search-change="searchProducts"
+    />
+    <div v-if="productStore.filteredProducts.length === 0">
       <p>No products found</p>
     </div>
-    <ProductCard
-      v-else
-      v-for="product in productStore.products"
-      :key="product.id"
-      :product="product"
-      @add-to-cart="addToCart"
-    />
+    <div v-else>
+      <ProductCard
+        v-for="product in productStore.filteredProducts"
+        :key="product.id"
+        :product="product"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from "vue";
+import { defineComponent } from "vue";
 import { useProductStore } from "../stores/productStore";
 import ProductSort from "./ProductSort.vue";
 import ProductFilter from "./ProductFilter.vue";
@@ -35,31 +40,23 @@ export default defineComponent({
   setup() {
     const productStore = useProductStore();
 
-    const currentSort = computed(() => productStore.sortOption);
-
-    const currentFilters = computed(() =>
-      productStore.selectedCategory ? [productStore.selectedCategory] : []
-    );
-
     const sortProducts = (sort) => {
       productStore.setSortOption(sort);
     };
 
-    const filterProducts = (filters) => {
-      const category = filters.length ? filters[0] : null;
+    const filterProducts = (category) => {
       productStore.setCategory(category);
     };
 
-    const addToCart = (product) => {
-      // Add product to cart
+    const searchProducts = (query) => {
+      productStore.setSearchQuery(query);
     };
 
     return {
       productStore,
-      currentSort,
-      currentFilters,
       sortProducts,
       filterProducts,
+      searchProducts,
       addToCart,
     };
   },
