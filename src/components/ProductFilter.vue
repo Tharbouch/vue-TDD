@@ -1,25 +1,32 @@
 <template>
   <div>
-    <label for="filter">Filter:</label>
-    <input type="text" id="filter" v-model="filter" @input="filterProducts" />
-    <div>
-      <button data-test="category-option" @click="selectCategory(null)">
+    <label for="search">search:</label>
+    <input type="text" id="search" v-model="search" @input="searchProducts" />
+    <select
+      :value="selectedCategory"
+      @change="handleChange"
+      data-test="category-option"
+    >
+      <option @click="selectCategory(null)" value="" :data-value="null">
         All Categories
-      </button>
-      <button
+      </option>
+      <option
         v-for="category in categories"
         :key="category.id"
-        data-test="category-option"
+        :value="category.id"
+        :data-value="category.id"
         @click="selectCategory(category.id)"
+        data-test="category-option"
       >
         {{ category.name }}
-      </button>
-    </div>
+      </option>
+    </select>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProductFilter",
   props: {
     categories: {
@@ -33,16 +40,20 @@ export default {
   },
   data() {
     return {
-      filter: "",
+      search: "",
     };
   },
   methods: {
-    filterProducts() {
-      this.$emit("search-change", this.filter);
+    searchProducts() {
+      this.$emit("search-change", this.search);
+    },
+    handleChange(event) {
+      const categoryId = event.target.value === "" ? null : event.target.value;
+      selectCategory(categoryId);
     },
     selectCategory(categoryId) {
       this.$emit("category-change", categoryId);
     },
   },
-};
+});
 </script>

@@ -3,7 +3,7 @@ import { products, categories } from "../../mock-data/products";
 
 export const useProductStore = defineStore("productStore", {
   state: () => ({
-    products,
+    products: products,
     selectedCategory: null,
     searchQuery: "",
     sortOption: "",
