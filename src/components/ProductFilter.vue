@@ -2,11 +2,7 @@
   <div>
     <label for="search">search:</label>
     <input type="text" id="search" v-model="search" @input="searchProducts" />
-    <select
-      :value="selectedCategory"
-      @change="handleChange"
-      data-test="category-option"
-    >
+    <select :value="selectedCategory" data-test="category-option">
       <option @click="selectCategory(null)" value="" :data-value="null">
         All Categories
       </option>
@@ -49,7 +45,6 @@ export default defineComponent({
     },
     handleChange(event) {
       const categoryId = event.target.value === "" ? null : event.target.value;
-      selectCategory(categoryId);
     },
     selectCategory(categoryId) {
       this.$emit("category-change", categoryId);

@@ -57,7 +57,6 @@ export default defineComponent({
       sortProducts,
       filterProducts,
       searchProducts,
-      addToCart,
     };
   },
 });

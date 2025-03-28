@@ -14,7 +14,14 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import ProductCatalog from "./components/ProductCatalog.vue";
+export default {
+  components: {
+    ProductCatalog,
+  },
+};
+</script>
 
 <style>
 * {
