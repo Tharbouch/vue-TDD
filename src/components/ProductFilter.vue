@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <label for="search">search:</label>
-    <input type="text" id="search" v-model="search" @input="searchProducts" />
+  <div class="product-filter">
+    <div class="search-container">
+      <label for="search">search:</label>
+      <input type="text" id="search" v-model="search" @input="searchProducts" />
+    </div>
     <select :value="selectedCategory" data-test="category-option">
       <option @click="selectCategory(null)" value="" :data-value="null">
         All Categories
@@ -52,3 +54,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.product-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+</style>

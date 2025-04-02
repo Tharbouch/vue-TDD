@@ -6,7 +6,7 @@
     <p>${{ product.price }}</p>
     <p>{{ product.quantity }}</p>
     <p>{{ product.rating }}</p>
-    <button @click="addToCart">Add to Cart</button>
+    <button @click="emitAddToCart">Add to Cart</button>
   </div>
 </template>
 
@@ -21,12 +21,13 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["add-to-cart"],
   setup(props, { emit }) {
+    const emitAddToCart = () => {
+      emit("add-to-cart", props.product);
+    };
+
     return {
-      addToCart() {
-        emit("add-to-cart", props.product);
-      },
+      emitAddToCart,
     };
   },
 });
